@@ -1,0 +1,27 @@
+.decrease {
+  animation: decrease 1s ease-in-out;
+
+  @keyframes decrease {
+    from {
+      background-color: rgb(134 239 172);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+}
+
+
+.increase {
+  animation: increase 1s ease-in-out;
+
+  @keyframes increase {
+    from {
+      background-color: rgb(254 205 211);
+
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+}
