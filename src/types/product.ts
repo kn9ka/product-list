@@ -3,6 +3,8 @@ export type Product = {
   count: number;
   price: number;
   groupId: number;
+  groupName: string;
+  name: string;
 };
 
 export type RawProduct = {

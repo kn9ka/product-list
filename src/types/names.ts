@@ -1,11 +1,11 @@
 export type RawGroupName = {
   [key: string]: {
     G: string;
-    B: RawProductName;
+    B: RawProductNames;
   };
 };
 
-type RawProductName = {
+export type RawProductNames = {
   [key: string]: {
     N: string;
     T: number;
@@ -15,11 +15,13 @@ type RawProductName = {
 export type GroupName = {
   [key: string]: {
     name: string;
-    products: { [key: string]: ProductName };
+    products: ProductNames;
   };
 };
 
-type ProductName = {
-  name: string;
-  id: number;
+export type ProductNames = {
+  [x: string]: {
+    name: string;
+    id: number;
+  };
 };

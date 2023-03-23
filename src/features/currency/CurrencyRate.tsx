@@ -2,12 +2,12 @@
 import { useCurrencyRate } from '@shared/hooks/useCurrencyRate';
 
 export const CurrencyRate = () => {
-  const [nextRate] = useCurrencyRate();
+  const [rate] = useCurrencyRate();
 
   return (
     <div>
       <span>текущий курс: </span>
-      <span>{nextRate}</span>
+      <span>{rate}</span>
     </div>
   );
 };

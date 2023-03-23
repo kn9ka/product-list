@@ -1,22 +1,20 @@
-'use client';
-import { useState, useEffect, useRef } from 'react';
-import type { Product } from '@types/product';
+import { useEffect, useRef } from 'react';
+import type { Product } from '@src/types/product';
 import { useCurrencyRate } from '@shared/hooks/useCurrencyRate';
 import styles from './styles.module.scss';
 import cn from 'classnames';
 
-enum Status {
-  Increase,
-  Decrease,
-}
 type ProductItemProps = {
   product: Product;
+  onAddToCart: (product: Product) => void;
 };
 
-export const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
+export const ProductItem: React.FC<ProductItemProps> = ({
+  product,
+  onAddToCart,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [nextRate, prevRate] = useCurrencyRate();
-  const [status, setState] = useState<Status | undefined>();
 
   const increase = () => {
     ref?.current?.classList.add(styles.increase);
@@ -35,21 +33,36 @@ export const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
     }
   }, [nextRate, prevRate]);
 
+  const handleAddToCart = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    onAddToCart(product);
+  };
+
+  const price = (product.price * nextRate).toFixed(2);
+
   return (
     <div
       ref={ref}
       className={cn(
-        'grid grid-cols-4 p-2 text-black rounded-lg border-slate-200 border bg-stone-100 '
+        'items-center p-2 text-black rounded-lg border-slate-200 border bg-stone-100 gap-2',
+        styles.grid
       )}
       onAnimationEnd={clear}
     >
-      <span>{product.id}</span>
-      <span>{product.price * (nextRate || 0)}</span>
-      <div className="">
-        <span className="text-slate-500 font-thin">count: </span>
-        <span>{product.count}</span>
+      <span>{product.name}</span>
+      <div className="flex flex-col">
+        <span className="text-slate-500 font-thin">price: </span>
+        <span className="text-sm">{price}</span>
       </div>
-      <button className="ml-auto px-2 border rounded bg-emerald-100 text-slate-600">
+      <div className="flex flex-col">
+        <span className="text-slate-500 font-thin">count: </span>
+        <span className="text-sm">{product.count}</span>
+      </div>
+
+      <button
+        className="ml-2 px-2 border rounded bg-emerald-100 text-slate-600"
+        onClick={handleAddToCart}
+      >
         Add to cart
       </button>
     </div>

@@ -1,28 +1,29 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
+
+import {
+  LS_CURRENT_RATE_NAME,
+  LS_PREV_RATE_NAME,
+  CURRENCY_GET_INTERVAL,
+} from '@shared/util/config';
 import { useInterval } from 'usehooks-ts';
-import { getCurrencyRate } from '@shared/util/currency';
-import { Currency } from '@enums/currency';
 
-const CURRENCY_GET_INTERVAL = 10000;
+const getRateByKey = (key: string) => {
+  const item = window.localStorage.getItem(key);
+  return item ? JSON.parse(item) : undefined;
+};
 
+// чтобы можно было в любой момент поменять логику получения курс
+// например сделать правильно и фетчить данные с какого-нибудь апи
 export const useCurrencyRate = () => {
-  const [nextRate, setNextRate] = useState<number | undefined>();
-  const [prevRate, setPrevRate] = useState<number | undefined>();
-
-  // да-да, можно было сделать вот так для ленивой инициализации: useState(getCurrencyRate(Currency.USD))
-  // однако NextJS такое не любит, ругается что html отличается во время гидрации
-  useEffect(() => {
-    const next = getCurrencyRate(Currency.USD);
-    const prev = nextRate;
-    setNextRate(next);
-    setPrevRate(prev);
-  }, []);
+  const [prevRate, setPrevRate] = useState(getRateByKey(LS_PREV_RATE_NAME));
+  const [nextRate, setNextRate] = useState(getRateByKey(LS_CURRENT_RATE_NAME));
 
   useInterval(() => {
-    const currentRate = getCurrencyRate(Currency.USD);
-    setNextRate(currentRate);
-    setPrevRate(nextRate);
+    setPrevRate(getRateByKey(LS_PREV_RATE_NAME));
+    setNextRate(getRateByKey(LS_CURRENT_RATE_NAME));
   }, CURRENCY_GET_INTERVAL);
+
+  console.log(prevRate, nextRate);
 
   return [nextRate, prevRate];
 };
