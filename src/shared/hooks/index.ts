@@ -1,3 +1,3 @@
-export { useCurrencyRate } from './useCurrencyRate';
-export { useNamesDictionary } from './useNamesDictionary';
-export { useProducts } from './useProducts';
+export { useCurrencyRate } from './useCurrencyRate'
+export { useProducts } from './useProducts'
+export { useNamesDictionary } from './useNamesDictionary'
