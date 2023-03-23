@@ -1,20 +1,20 @@
-import type { Product } from '@src/types/product';
-import { ProductItem } from '@shared/ui/Product/ProductItem';
-import { useNamesDictionary } from '@/shared/hooks/useNamesDictionary';
+import type { Product } from '@src/types/product'
+import { ProductItem } from '@shared/ui/Product/ProductItem'
+import { useNamesDictionary } from '@shared/hooks/useNamesDictionary'
 
 type ProductListProps = {
-  products: Product[];
-  onAddToCart: (product: Product) => void;
-};
+  products: Product[]
+  onAddToCart: (product: Product) => void
+}
 export const ProductList: React.FC<ProductListProps> = ({
   products,
   onAddToCart,
 }) => {
-  const { dictionary } = useNamesDictionary();
-  const { groupNames = {} } = dictionary || {};
+  const { dictionary } = useNamesDictionary()
+  const { groupNames = {} } = dictionary || {}
 
-  const groups = (products || []).map(({ groupId }) => groupId);
-  const uniqueGroups = [...new Set(groups)];
+  const groups = (products || []).map(({ groupId }) => groupId)
+  const uniqueGroups = [...new Set(groups)]
 
   return (
     <div className="w-4/6 flex flex-col gap-4">
@@ -37,5 +37,5 @@ export const ProductList: React.FC<ProductListProps> = ({
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
