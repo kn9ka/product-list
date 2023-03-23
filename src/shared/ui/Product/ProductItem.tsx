@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { Product } from '@src/types/product';
-import { useCurrencyRate } from '@shared/hooks/useCurrencyRate';
+import { useCurrencyRate } from '@shared/hooks';
 import styles from './styles.module.scss';
 import cn from 'classnames';
 

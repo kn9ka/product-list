@@ -1,29 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
+import useSWR, { Fetcher } from 'swr'
 
-import {
-  LS_CURRENT_RATE_NAME,
-  LS_PREV_RATE_NAME,
-  CURRENCY_GET_INTERVAL,
-} from '@shared/util/config';
-import { useInterval } from 'usehooks-ts';
+const REFRESH_INTERVAL = 10000
 
-const getRateByKey = (key: string) => {
-  const item = window.localStorage.getItem(key);
-  return item ? JSON.parse(item) : undefined;
-};
+const fetcher: Fetcher<number, string> = (...args) =>
+  fetch(...args).then((res) => res.json())
 
 // чтобы можно было в любой момент поменять логику получения курс
 // например сделать правильно и фетчить данные с какого-нибудь апи
 export const useCurrencyRate = () => {
-  const [prevRate, setPrevRate] = useState(getRateByKey(LS_PREV_RATE_NAME));
-  const [nextRate, setNextRate] = useState(getRateByKey(LS_CURRENT_RATE_NAME));
+  const [prevRate, setPrevRate] = useState(0)
+  const [nextRate, setNextRate] = useState(0)
 
-  useInterval(() => {
-    setPrevRate(getRateByKey(LS_PREV_RATE_NAME));
-    setNextRate(getRateByKey(LS_CURRENT_RATE_NAME));
-  }, CURRENCY_GET_INTERVAL);
+  const { data } = useSWR(`/api/currency`, fetcher, {
+    refreshInterval: REFRESH_INTERVAL,
+  })
 
-  console.log(prevRate, nextRate);
+  useEffect(() => {
+    if (data) {
+      setPrevRate(nextRate)
+      setNextRate(data)
+    }
+  }, [data])
 
-  return [nextRate, prevRate];
-};
+  return [nextRate, prevRate]
+}

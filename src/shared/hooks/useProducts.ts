@@ -2,6 +2,7 @@ import useSWR, { Fetcher } from 'swr';
 import type { Product } from '@src/types/product';
 import { formatProductFieldName } from '@shared/util/parseAPI';
 import { useNamesDictionary } from './useNamesDictionary';
+
 const REFRESH_INTERVAL = 20000;
 
 const fetcher: Fetcher<Product[], string> = (...args) =>

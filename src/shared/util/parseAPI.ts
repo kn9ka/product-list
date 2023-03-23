@@ -7,6 +7,8 @@ export const formatProductFieldName = (rawProduct: RawProduct): Product => {
     groupId: rawProduct.G,
     id: rawProduct.T,
     count: rawProduct.P,
+    groupName: '',
+    name: '',
   };
 };
 

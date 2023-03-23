@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ProductList } from '@features/product';
 import { Cart } from '@features/cart';
-import { useProducts } from '@shared/hooks/useProducts';
+import { useProducts } from '@shared/hooks';
 import { Product } from '@src/types/product';
 
 export const Shopping = () => {

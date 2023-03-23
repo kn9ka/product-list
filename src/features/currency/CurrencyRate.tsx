@@ -1,5 +1,5 @@
 'use client';
-import { useCurrencyRate } from '@shared/hooks/useCurrencyRate';
+import { useCurrencyRate } from '@shared/hooks';
 
 export const CurrencyRate = () => {
   const [rate] = useCurrencyRate();
