@@ -1,11 +1,11 @@
-import useSWR, { Fetcher } from 'swr';
-import type { GroupName, ProductNames } from '@src/types/names';
+import useSWR, { Fetcher } from 'swr'
+import type { GroupName, ProductNames } from '@src/types/names'
 import {
   formatGroupNameFieldName,
   normalizeGroupNames,
-} from '@shared/util/parseAPI';
+} from '@shared/util/parseAPI'
 
-const REFRESH_INTERVAL = 20000;
+const REFRESH_INTERVAL = 15000
 
 const fetcher: Fetcher<
   { groupNames: GroupName; productNames: ProductNames },
@@ -14,16 +14,16 @@ const fetcher: Fetcher<
   fetch(...args)
     .then((res) => res.json())
     .then(formatGroupNameFieldName)
-    .then(normalizeGroupNames);
+    .then(normalizeGroupNames)
 
 export const useNamesDictionary = () => {
   const { data, error, isLoading } = useSWR(`/names.json`, fetcher, {
     refreshInterval: REFRESH_INTERVAL,
-  });
+  })
 
   return {
     dictionary: data,
     isLoading,
     isError: error,
-  };
-};
+  }
+}
